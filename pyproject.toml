@@ -24,10 +24,10 @@ dev = [
 ]
 
 [project.scripts]
-mcp-server-data-wrangler = "mcp_data_wrangler:main"
+mcp-server-data-wrangler = "mcp_server_data_wrangler:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/mcp_data_wrangler"]
+packages = ["src/mcp_server_data_wrangler"]
 
 [build-system]
 requires = ["hatchling"]
