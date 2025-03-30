@@ -7,7 +7,7 @@ from pydantic import ConfigDict
 from .model import Data
 
 
-class DataShapeInputSchema(Data):
+class DataSchemaInputSchema(Data):
     model_config = ConfigDict(
         validate_assignment=True,
         frozen=True,
@@ -28,31 +28,29 @@ class DataShapeInputSchema(Data):
         }
 
     @staticmethod
-    def from_schema(inuput_data_file_path: str) -> "DataShapeInputSchema":
-        data = Data.from_file(inuput_data_file_path)
-        return DataShapeInputSchema(df=data.df)
+    def from_schema(input_data_file_path: str) -> "DataSchemaInputSchema":
+        data = Data.from_file(input_data_file_path)
+        return DataSchemaInputSchema(df=data.df)
 
     @staticmethod
-    def from_args(arguments: dict[str, Any]) -> "DataShapeInputSchema":
+    def from_args(arguments: dict[str, Any]) -> "DataSchemaInputSchema":
         input_data_file_path = arguments["input_data_file_path"]
-        return DataShapeInputSchema.from_schema(inuput_data_file_path=input_data_file_path)
+        return DataSchemaInputSchema.from_schema(input_data_file_path=input_data_file_path)
 
 
-async def handle_data_shape(
+async def handle_data_schema(
     arguments: dict[str, Any],
 ) -> list[types.TextContent | types.ImageContent | types.EmbeddedResource]:
-    data_shape_input = DataShapeInputSchema.from_args(arguments)
-    data_shape = data_shape_input.df.shape
-    num_rows = data_shape[0]
-    num_cols = data_shape[1]
+    data_schema_input = DataSchemaInputSchema.from_args(arguments)
+    schema = data_schema_input.df.schema
+    schema_dict = {col: str(dtype) for col, dtype in schema.items()}
     return [
         types.TextContent(
             type="text",
             text=json.dumps(
                 {
-                    "description": "Data shape of the input data",
-                    "rows": num_rows,
-                    "cols": num_cols,
+                    "description": "Data schema of the input data",
+                    "schema": schema_dict,
                 }
             ),
         )

@@ -175,3 +175,7 @@ cython_debug/
 
 .DS_Store
 results/*.csv
+
+data/*.csv
+data/*.tsv
+data/*.parquet

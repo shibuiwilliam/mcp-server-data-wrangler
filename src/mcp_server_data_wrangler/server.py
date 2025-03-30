@@ -5,6 +5,7 @@ from mcp.server import InitializationOptions, NotificationOptions, Server
 
 from .configurations import Settings
 from .make_logger import make_logger
+from .tools.data_schema import handle_data_schema
 from .tools.data_shape import handle_data_shape
 from .tools.tools import MCPServerDataWrangler
 
@@ -58,6 +59,7 @@ async def call_tool(
         ],
     ] = {
         MCPServerDataWrangler.data_shape.value[0]: handle_data_shape,
+        MCPServerDataWrangler.data_schema.value[0]: handle_data_schema,
     }
 
     if tool_name not in tool_handlers:
