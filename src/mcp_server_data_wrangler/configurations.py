@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-from pydantic import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from .make_logger import make_logger
 
