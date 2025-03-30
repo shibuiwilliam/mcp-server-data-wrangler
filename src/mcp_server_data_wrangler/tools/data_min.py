@@ -4,7 +4,10 @@ from typing import Any
 from mcp import types
 from pydantic import ConfigDict
 
+from ..make_logger import make_logger
 from .model import Data
+
+logger = make_logger(__name__)
 
 
 class DataMinInputSchema(Data):
@@ -62,17 +65,31 @@ async def handle_data_min_horizontal(
     arguments: dict[str, Any],
 ) -> list[types.TextContent | types.ImageContent | types.EmbeddedResource]:
     data_min_input = DataMinInputSchema.from_args(arguments)
-    min_horizontal_df = data_min_input.df.min_horizontal()
+    try:
+        min_horizontal_df = data_min_input.df.min_horizontal()
 
-    # Convert the DataFrame to a dictionary format
-    min_horizontal_dict = {
-        "description": "Minimum values across columns for each row",
-        "min_values": {str(i): str(val) if val is not None else None for i, val in enumerate(min_horizontal_df)},
-    }
+        # Convert the DataFrame to a dictionary format
+        min_horizontal_dict = {
+            "description": "Minimum values across columns for each row",
+            "min_values": {str(i): str(val) if val is not None else None for i, val in enumerate(min_horizontal_df)},
+        }
 
-    return [
-        types.TextContent(
-            type="text",
-            text=json.dumps(min_horizontal_dict),
-        )
-    ]
+        return [
+            types.TextContent(
+                type="text",
+                text=json.dumps(min_horizontal_dict),
+            )
+        ]
+    except Exception as e:
+        logger.error(f"Error calculating min: {e}")
+        return [
+            types.TextContent(
+                type="text",
+                text=json.dumps(
+                    {
+                        "error": "Failed to calculate min values.",
+                        "message": str(e),
+                    }
+                ),
+            )
+        ]
