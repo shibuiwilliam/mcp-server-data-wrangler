@@ -16,6 +16,7 @@ from .data_quantile import DataQuantileInputSchema, handle_data_quantile
 from .data_schema import DataSchemaInputSchema, handle_data_schema
 from .data_shape import DataShapeInputSchema, handle_data_shape
 from .data_std import DataStdInputSchema, handle_data_std
+from .data_var import DataVarInputSchema, handle_data_var
 from .describe_data import DescribeDataInputSchema, handle_describe_data
 from .model import Data
 from .tools import MCPServerDataWrangler
@@ -51,4 +52,6 @@ __all__ = [
     "handle_data_quantile",
     "handle_data_std",
     "tools",
+    "DataVarInputSchema",
+    "handle_data_var",
 ]

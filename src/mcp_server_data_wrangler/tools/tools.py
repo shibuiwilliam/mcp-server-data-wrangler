@@ -15,6 +15,7 @@ from . import (
     DataSchemaInputSchema,
     DataShapeInputSchema,
     DataStdInputSchema,
+    DataVarInputSchema,
     DescribeDataInputSchema,
     handle_data_count,
     handle_data_estimated_size,
@@ -30,6 +31,7 @@ from . import (
     handle_data_schema,
     handle_data_shape,
     handle_data_std,
+    handle_data_var,
     handle_describe_data,
 )
 
@@ -50,6 +52,7 @@ class MCPServerDataWrangler(Enum):
     data_product = ("data_product", "Product values for each column")
     data_quantile = ("data_quantile", "Quantile values for each column")
     data_std = ("data_std", "Standard deviation values for each column")
+    data_var = ("data_var", "Variance values for each column")
 
     @staticmethod
     def from_str(name: str) -> "MCPServerDataWrangler":
@@ -136,6 +139,11 @@ class MCPServerDataWrangler(Enum):
                 description=MCPServerDataWrangler.data_std.value[1],
                 inputSchema=DataStdInputSchema.input_schema(),
             ),
+            types.Tool(
+                name=MCPServerDataWrangler.data_var.value[0],
+                description=MCPServerDataWrangler.data_var.value[1],
+                inputSchema=DataVarInputSchema.input_schema(),
+            ),
         ]
 
     @staticmethod
@@ -156,4 +164,5 @@ class MCPServerDataWrangler(Enum):
             MCPServerDataWrangler.data_product.value[0]: handle_data_product,
             MCPServerDataWrangler.data_quantile.value[0]: handle_data_quantile,
             MCPServerDataWrangler.data_std.value[0]: handle_data_std,
+            MCPServerDataWrangler.data_var.value[0]: handle_data_var,
         }
