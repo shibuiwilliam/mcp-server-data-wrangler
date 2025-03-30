@@ -9,10 +9,13 @@ from .data_estimated_size import (
     handle_data_estimated_size,
 )
 from .data_max import DataMaxInputSchema, handle_data_max, handle_data_max_horizontal
-from .data_min_mean import (
-    DataMinMeanInputSchema,
+from .data_mean import (
+    DataMeanInputSchema,
     handle_data_mean,
     handle_data_mean_horizontal,
+)
+from .data_min import (
+    DataMinInputSchema,
     handle_data_min,
     handle_data_min_horizontal,
 )
@@ -82,22 +85,22 @@ class MCPServerDataWrangler(Enum):
             types.Tool(
                 name=MCPServerDataWrangler.data_min.value[0],
                 description=MCPServerDataWrangler.data_min.value[1],
-                inputSchema=DataMinMeanInputSchema.input_schema(),
+                inputSchema=DataMinInputSchema.input_schema(),
             ),
             types.Tool(
                 name=MCPServerDataWrangler.data_min_horizontal.value[0],
                 description=MCPServerDataWrangler.data_min_horizontal.value[1],
-                inputSchema=DataMinMeanInputSchema.input_schema(),
+                inputSchema=DataMinInputSchema.input_schema(),
             ),
             types.Tool(
                 name=MCPServerDataWrangler.data_mean.value[0],
                 description=MCPServerDataWrangler.data_mean.value[1],
-                inputSchema=DataMinMeanInputSchema.input_schema(),
+                inputSchema=DataMeanInputSchema.input_schema(),
             ),
             types.Tool(
                 name=MCPServerDataWrangler.data_mean_horizontal.value[0],
                 description=MCPServerDataWrangler.data_mean_horizontal.value[1],
-                inputSchema=DataMinMeanInputSchema.input_schema(),
+                inputSchema=DataMeanInputSchema.input_schema(),
             ),
         ]
 
