@@ -5,8 +5,6 @@ from mcp.server import InitializationOptions, NotificationOptions, Server
 
 from .configurations import Settings
 from .make_logger import make_logger
-from .tools.data_schema import handle_data_schema
-from .tools.data_shape import handle_data_shape
 from .tools.tools import MCPServerDataWrangler
 
 logger = make_logger(__name__)
@@ -57,10 +55,7 @@ async def call_tool(
         Callable[
             [dict[str, Any]], Coroutine[Any, Any, list[types.TextContent | types.ImageContent | types.EmbeddedResource]]
         ],
-    ] = {
-        MCPServerDataWrangler.data_shape.value[0]: handle_data_shape,
-        MCPServerDataWrangler.data_schema.value[0]: handle_data_schema,
-    }
+    ] = MCPServerDataWrangler.tool_to_handler()
 
     if tool_name not in tool_handlers:
         raise ValueError(f"Tool {tool_name} not found")

@@ -5,6 +5,8 @@ from enum import Enum
 import polars as pl
 from pydantic import BaseModel, ConfigDict, Field
 
+from ..utils import str_utils
+
 
 class SupportedFileType(Enum):
     csv = ("csv", ".csv")
@@ -46,12 +48,13 @@ class Data(BaseModel, ABC):
 
     @staticmethod
     def from_file(file_path: str) -> "Data":
-        extension = os.path.splitext(file_path)[1]
+        fp = str_utils.strip_string(file_path)
+        extension = os.path.splitext(fp)[1]
         supported_file_type = SupportedFileType.from_extension(extension)
         if supported_file_type == SupportedFileType.csv:
-            return Data(df=pl.read_csv(file_path))
+            return Data(df=pl.read_csv(fp))
         elif supported_file_type == SupportedFileType.tsv:
-            return Data(df=pl.read_csv(file_path, separator="\t"))
+            return Data(df=pl.read_csv(fp, separator="\t"))
         elif supported_file_type == SupportedFileType.parquet:
-            return Data(df=pl.read_parquet(file_path))
+            return Data(df=pl.read_parquet(fp))
         raise ValueError(f"Unsupported file type: {extension}")
