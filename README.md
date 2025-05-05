@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/shibuiwilliam-mcp-server-data-wrangler-badge.png)](https://mseep.ai/app/shibuiwilliam-mcp-server-data-wrangler)
+
 # mcp-data-wrangler: MCP server for Data Wrangling
 
 ## Overview
